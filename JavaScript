@@ -1,0 +1,47 @@
+const spinner = document.getElementById('spinner');
+const result = document.getElementById('result');
+const spinBtn = document.getElementById('spinBtn');
+
+let totalPoints = localStorage.getItem('points') ? parseInt(localStorage.getItem('points')) : 0;
+updateDisplay();
+
+spinBtn.addEventListener('click', () => {
+  const degree = Math.floor(3000 + Math.random() * 3000);
+  spinner.style.transform = `rotate(${degree}deg)`;
+  spinBtn.disabled = true;
+  result.textContent = "Spinning... 🎡";
+
+  setTimeout(() => {
+    const points = [10, 20, 50, 100];
+    const reward = points[Math.floor(Math.random() * points.length)];
+    totalPoints += reward;
+    localStorage.setItem('points', totalPoints);
+    updateDisplay();
+    result.textContent = `You earned ${reward} points! 🪙`;
+    spinBtn.disabled = false;
+  }, 4000);
+});
+
+function updateDisplay() {
+  const pointsDisplay = document.getElementById('total');
+  if (pointsDisplay) {
+    pointsDisplay.textContent = `Total Points: ${totalPoints}`;
+  } else {
+    const newDisplay = document.createElement('h3');
+    newDisplay.id = 'total';
+    newDisplay.textContent = `Total Points: ${totalPoints}`;
+    document.querySelector('.container').appendChild(newDisplay);
+  }
+}
+
+const withdrawBtn = document.getElementById('withdrawBtn');
+const withdrawMsg = document.getElementById('withdrawMsg');
+
+withdrawBtn.addEventListener('click', () => {
+  if (totalPoints >= 5000) {
+    withdrawMsg.textContent = "✅ You can withdraw 10 Taka via bKash/Nagad!";
+  } else {
+    const need = 5000 - totalPoints;
+    withdrawMsg.textContent = `❌ You need ${need} more points to withdraw.`;
+  }
+});
