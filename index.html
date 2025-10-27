@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Spinner Game - Play & Earn</title>
+  <style>
+    body {
+      text-align: center;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to bottom, #1e3c72, #2a5298);
+      color: #fff;
+      height: 100vh;
+      margin: 0;
+    }
+
+    h1 {
+      margin-top: 30px;
+    }
+
+    #wheel {
+      width: 250px;
+      height: 250px;
+      border: 10px solid #fff;
+      border-radius: 50%;
+      margin: 20px auto;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 0 20px rgba(255,255,255,0.5);
+    }
+
+    #wheel div {
+      width: 50%;
+      height: 50%;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform-origin: 0% 0%;
+    }
+
+    #pointer {
+      width: 0;
+      height: 0;
+      border-left: 20px solid transparent;
+      border-right: 20px solid transparent;
+      border-bottom: 30px solid red;
+      margin: 0 auto;
+    }
+
+    button {
+      background: #ffcc00;
+      border: none;
+      padding: 10px 20px;
+      font-size: 18px;
+      border-radius: 10px;
+      cursor: pointer;
+      color: #333;
+    }
+
+    #points {
+      font-size: 20px;
+      margin-top: 15px;
+    }
+
+    .section1 { background: #ff7675; transform: rotate(0deg) skewY(-60deg); }
+    .section2 { background: #74b9ff; transform: rotate(60deg) skewY(-60deg); }
+    .section3 { background: #55efc4; transform: rotate(120deg) skewY(-60deg); }
+    .section4 { background: #ffeaa7; transform: rotate(180deg) skewY(-60deg); }
+    .section5 { background: #fd79a8; transform: rotate(240deg) skewY(-60deg); }
+    .section6 { background: #a29bfe; transform: rotate(300deg) skewY(-60deg); }
+  </style>
+</head>
+<body>
+  <h1>🎡 Spinner Game - Earn Points</h1>
+  <div id="pointer"></div>
+  <div id="wheel">
+    <div class="section1"></div>
+    <div class="section2"></div>
+    <div class="section3"></div>
+    <div class="section4"></div>
+    <div class="section5"></div>
+    <div class="section6"></div>
+  </div>
+  <button onclick="spin()">Spin Now</button>
+  <p id="points">Total Points: 0</p>
+  <p id="money">Total Money: ৳0.00</p>
+  <p style="margin-top: 10px;">5000 পয়েন্ট = ৳10 💸<br>৩০ টাকা রিচার্জ বা ৫০ টাকা হলে নগদ/বিকাশে উইথড্র</p>
+
+  <script>
+    let spinning = false;
+    let points = 0;
+
+    function spin() {
+      if (spinning) return;
+      spinning = true;
+
+      let wheel = document.getElementById("wheel");
+      let deg = Math.floor(5000 + Math.random() * 5000);
+      wheel.style.transition = "all 5s ease-out";
+      wheel.style.transform = "rotate(" + deg + "deg)";
+
+      setTimeout(() => {
+        spinning = false;
+        let earned = Math.floor(Math.random() * 200) + 50; // প্রতি স্পিনে ৫০-২৫০ পয়েন্ট
+        points += earned;
+        document.getElementById("points").innerText = "Total Points: " + points;
+
+        // টাকা ক্যালকুলেশন
+        let money = (points / 5000) * 10;
+        document.getElementById("money").innerText = "Total Money: ৳" + money.toFixed(2);
+
+        alert("অভিনন্দন! আপনি পেয়েছেন " + earned + " পয়েন্ট 🎉");
+      }, 5000);
+    }
+  </script>
+</body>
+</html>
